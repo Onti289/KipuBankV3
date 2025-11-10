@@ -63,6 +63,7 @@ uint256 bankCap;       // Límite máximo en USDC
 
 ## Interacción
 1. **Depósito**
+   
 El usuario puede depositar:
 - ETH mediante depositNative()
 - USDC mediante depositUSDC(uint256 amount)
@@ -70,10 +71,12 @@ El usuario puede depositar:
 Si el token no es USDC, el contrato automáticamente ejecuta un swap a USDC y acredita el resultado.
 
 2. **Retiro**
+   
 El usuario puede retirar su balance en USDC con:
 withdrawUSDC(uint256 amount)
 
-3. **Consultar Balance**
+4. **Consultar Balance**
+   
 getBalance(address user)
 Retorna el balance del usuario expresado en USDC.
 
