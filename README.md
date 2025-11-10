@@ -39,14 +39,25 @@ El uso de USDC como unidad base garantiza consistencia en los balances y facilit
 
 ---
 
-## Decisiones de diseño y trade-offs
+## Instrucciones de Despliegue
 
-| Aspecto                | Decisión                                                | Trade-off                                                    |
-| ---------------------- | ------------------------------------------------------- | ------------------------------------------------------------ |
-| **Token base**         | USDC elegido como moneda estable de referencia          | Dependencia directa de la liquidez de USDC en Uniswap        |
-| **Router**             | Uso del `IUniswapV2Router02` estándar                   | Menor control sobre las tarifas de swap                      |
-| **Swaps automáticos**  | Conversión inmediata al depósito                        | Aumento de gas al depositar tokens distintos de USDC         |
-| **Seguridad**          | Mantener la protección de ownership y evitar reentradas | Menor flexibilidad en ciertas operaciones, pero más robustez |
+### Prerrequisitos
+- **Node.js** ≥ 18
+- **Hardhat** o **Remix IDE**
+- Acceso a una red compatible con Uniswap V2 (por ejemplo, Ethereum, Sepolia o Polygon)
+- Dirección del **UniswapV2 Router** correspondiente a la red elegida.
+- Dirección del token **USDC** de esa red.
+
+### Despliegue (con Hardhat)
+```bash
+npm install
+npx hardhat compile
+npx hardhat run scripts/deploy.js --network sepolia
+```
+### Variables a configurar en el Constructor
+address uniswapRouter; // Dirección del router Uniswap V2
+address usdcToken;     // Dirección del token USDC
+uint256 bankCap;       // Límite máximo en USDC
 
 ---
 
@@ -68,22 +79,11 @@ Retorna el balance del usuario expresado en USDC.
 
 ---
 
-## Instrucciones de Despliegue
+## Decisiones de diseño y trade-offs
 
-### Prerrequisitos
-- **Node.js** ≥ 18
-- **Hardhat** o **Remix IDE**
-- Acceso a una red compatible con Uniswap V2 (por ejemplo, Ethereum, Sepolia o Polygon)
-- Dirección del **UniswapV2 Router** correspondiente a la red elegida.
-- Dirección del token **USDC** de esa red.
-
-### Despliegue (con Hardhat)
-```bash
-npm install
-npx hardhat compile
-npx hardhat run scripts/deploy.js --network sepolia
-
-### Variables a configurar en el Constructor
-address uniswapRouter; // Dirección del router Uniswap V2
-address usdcToken;     // Dirección del token USDC
-uint256 bankCap;       // Límite máximo en USDC
+| Aspecto                | Decisión                                                | Trade-off                                                    |
+| ---------------------- | ------------------------------------------------------- | ------------------------------------------------------------ |
+| **Token base**         | USDC elegido como moneda estable de referencia          | Dependencia directa de la liquidez de USDC en Uniswap        |
+| **Router**             | Uso del `IUniswapV2Router02` estándar                   | Menor control sobre las tarifas de swap                      |
+| **Swaps automáticos**  | Conversión inmediata al depósito                        | Aumento de gas al depositar tokens distintos de USDC         |
+| **Seguridad**          | Mantener la protección de ownership y evitar reentradas | Menor flexibilidad en ciertas operaciones, pero más robustez |
