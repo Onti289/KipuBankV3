@@ -39,6 +39,35 @@ El uso de USDC como unidad base garantiza consistencia en los balances y facilit
 
 ---
 
+## Decisiones de diseño y trade-offs
+
+| Aspecto                | Decisión                                                | Trade-off                                                    |
+| ---------------------- | ------------------------------------------------------- | ------------------------------------------------------------ |
+| **Token base**         | USDC elegido como moneda estable de referencia          | Dependencia directa de la liquidez de USDC en Uniswap        |
+| **Router**             | Uso del `IUniswapV2Router02` estándar                   | Menor control sobre las tarifas de swap                      |
+| **Swaps automáticos**  | Conversión inmediata al depósito                        | Aumento de gas al depositar tokens distintos de USDC         |
+| **Seguridad**          | Mantener la protección de ownership y evitar reentradas | Menor flexibilidad en ciertas operaciones, pero más robustez |
+
+---
+
+## Interacción
+1. **Depósito**
+El usuario puede depositar:
+- ETH mediante depositNative()
+- USDC mediante depositUSDC(uint256 amount)
+- Cualquier otro token ERC-20 mediante depositToken(address token, uint256 amount)
+Si el token no es USDC, el contrato automáticamente ejecuta un swap a USDC y acredita el resultado.
+
+2. **Retiro**
+El usuario puede retirar su balance en USDC con:
+withdrawUSDC(uint256 amount)
+
+3. **Consultar Balance**
+getBalance(address user)
+Retorna el balance del usuario expresado en USDC.
+
+---
+
 ## Instrucciones de Despliegue
 
 ### Prerrequisitos
@@ -54,33 +83,7 @@ npm install
 npx hardhat compile
 npx hardhat run scripts/deploy.js --network sepolia
 
----
-
 ### Variables a configurar en el Constructor
 address uniswapRouter; // Dirección del router Uniswap V2
 address usdcToken;     // Dirección del token USDC
 uint256 bankCap;       // Límite máximo en USDC
-
-## Interacción
-1. Depósito
-El usuario puede depositar:
-- ETH mediante depositNative()
-- USDC mediante depositUSDC(uint256 amount)
-- Cualquier otro token ERC-20 mediante depositToken(address token, uint256 amount)
-Si el token no es USDC, el contrato automáticamente ejecuta un swap a USDC y acredita el resultado.
-
-2. Retiro
-El usuario puede retirar su balance en USDC con:
-withdrawUSDC(uint256 amount)
-
-3. Consultar Balance
-getBalance(address user)
-Retorna el balance del usuario expresado en USDC.
-
-## Decisiones de diseño y trade-offs
-| Aspecto                | Decisión                                                | Trade-off                                                    |
-| ---------------------- | ------------------------------------------------------- | ------------------------------------------------------------ |
-| **Token base**         | USDC elegido como moneda estable de referencia          | Dependencia directa de la liquidez de USDC en Uniswap        |
-| **Router**             | Uso del `IUniswapV2Router02` estándar                   | Menor control sobre las tarifas de swap                      |
-| **Swaps automáticos**  | Conversión inmediata al depósito                        | Aumento de gas al depositar tokens distintos de USDC         |
-| **Seguridad**          | Mantener la protección de ownership y evitar reentradas | Menor flexibilidad en ciertas operaciones, pero más robustez |
