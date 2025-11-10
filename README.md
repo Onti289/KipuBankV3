@@ -55,11 +55,15 @@ npx hardhat compile
 npx hardhat run scripts/deploy.js --network sepolia
 ```
 ### Variables a configurar en el Constructor
-address uniswapRouter; // Dirección del router Uniswap V2 
 
-address usdcToken;     // Dirección del token USDC 
+| Parámetro        | Descripción                                                                              | Valor sugerido                               |
+| ---------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------- |
+| `_threshold`     | Límite máximo de retiro por transacción (en USDC). Ej: 10,000 USDC                       | `10000000000000000000`                       |
+| `_bankCap`       | Límite total del banco (en USDC). Ej: 10,000 USDC                                        | `10000000000000000000`                       |
+| `_priceFeed`     | Dirección del oráculo **Chainlink ETH/USD** en Sepolia                                   | `0x694AA1769357215DE4FAC081bf1f309aDC325306` |
+| `_usdc`          | Dirección del token **USDC** en Sepolia                                                  | `0x07865c6E87B9F70255377e024ace6630C1Eaa37F` |
+| `_uniswapRouter` | Dirección del router **Uniswap V2** en Sepolia                                           | `0xeE567Fe1712Faf6149d80dA1E6934E354124CfE3` |
 
-uint256 bankCap;       // Límite máximo en USDC
 
 ---
 
