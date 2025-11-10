@@ -54,6 +54,8 @@ npm install
 npx hardhat compile
 npx hardhat run scripts/deploy.js --network sepolia
 
+---
+
 ### Variables a configurar en el Constructor
 address uniswapRouter; // Dirección del router Uniswap V2
 address usdcToken;     // Dirección del token USDC
