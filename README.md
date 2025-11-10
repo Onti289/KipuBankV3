@@ -77,7 +77,7 @@ Si el token no es USDC, el contrato automáticamente ejecuta un swap a USDC y ac
 El usuario puede retirar su balance en USDC con:
 withdrawUSDC(uint256 amount)
 
-4. **Consultar Balance**
+3. **Consultar Balance**
    
 getBalance(address user)
 Retorna el balance del usuario expresado en USDC.
